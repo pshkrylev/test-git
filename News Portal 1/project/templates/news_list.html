@@ -1,0 +1,84 @@
+{% extends 'default.html' %}
+{% load custom_filters %}
+
+{% block title %}Все новости{% endblock %}
+
+{% block extra_css %}
+<style>
+    .news-count {
+        background-color: #e8f4f8;
+        padding: 10px 15px;
+        border-radius: 5px;
+        margin-bottom: 20px;
+        font-weight: bold;
+    }
+    .news-list {
+        list-style: none;
+        padding: 0;
+    }
+    .news-item {
+        border-bottom: 1px solid #eee;
+        padding: 15px 0;
+        transition: background-color 0.3s;
+    }
+    .news-item:hover {
+        background-color: #f9f9f9;
+    }
+    .news-title {
+        font-size: 1.3em;
+        margin-bottom: 8px;
+    }
+    .news-title a {
+        color: #2c3e50;
+        text-decoration: none;
+    }
+    .news-title a:hover {
+        text-decoration: underline;
+        color: #3498db;
+    }
+    .news-date {
+        color: #7f8c8d;
+        font-size: 0.85em;
+        margin-bottom: 8px;
+    }
+    .news-preview {
+        color: #555;
+        line-height: 1.5;
+    }
+    .empty-news {
+        text-align: center;
+        color: #7f8c8d;
+        padding: 40px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<h1>Все новости</h1>
+
+<div class="news-count">
+    Всего новостей: {{ news|length }}
+</div>
+
+{% if news %}
+    <div class="news-list">
+        {% for item in news %}
+            <div class="news-item">
+                <div class="news-title">
+                    <a href="/news/{{ item.id }}/">{{ item.title|censor }}</a>
+                </div>
+                <div class="news-date">
+                    {{ item.created_at|date:"d.m.Y" }}
+                </div>
+                <div class="news-preview">
+                    {{ item.preview_text|censor }}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="empty-news">
+        <p>Новостей пока нет. Зайдите позже!</p>
+    </div>
+{% endif %}
+{% endblock %}
