@@ -1,0 +1,29 @@
+{% extends 'default.html' %}
+
+{% block title %}Мой профиль{% endblock %}
+
+{% block content %}
+<h1>Профиль пользователя</h1>
+
+<div class="profile-info">
+    <p><strong>Имя пользователя:</strong> {{ user_profile.username }}</p>
+    <p><strong>Имя:</strong> {{ user_profile.first_name|default:"Не указано" }}</p>
+    <p><strong>Фамилия:</strong> {{ user_profile.last_name|default:"Не указано" }}</p>
+    <p><strong>Email:</strong> {{ user_profile.email|default:"Не указан" }}</p>
+    <p><strong>Группы:</strong> 
+        {% for group in user_profile.groups.all %}
+            {{ group.name }}{% if not forloop.last %}, {% endif %}
+        {% empty %}
+            Нет групп
+        {% endfor %}
+    </p>
+</div>
+
+<div class="profile-actions">
+    <a href="{% url 'profile_edit' %}" class="btn">Редактировать профиль</a>
+    
+    {% if not user.groups.all|dictsort:"name"|filter:"name__exact=authors" %}
+        <a href="{% url 'become_author' %}" class="btn">Стать автором</a>
+    {% endif %}
+</div>
+{% endblock %}
