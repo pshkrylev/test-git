@@ -1,0 +1,51 @@
+{% extends 'default.html' %}
+{% load cache %}
+{% load custom_filters %}
+
+{% block title %}{{ article_item.title|censor }}{% endblock %}
+
+{% block content %}
+<!-- Кэшируем всю статью на основе её ID и рейтинга -->
+{% cache 3600 article_detail article_item.id article_item.rating %}
+<div class="article-header">
+    <h1>{{ article_item.title|censor }}</h1>
+    <div class="article-meta">
+        <span class="date">{{ article_item.created_at|date:"d.m.Y" }}</span>
+        <span class="author">Автор: {{ article_item.author.user.username }}</span>
+        <span class="rating">Рейтинг: {{ article_item.rating }}</span>
+    </div>
+</div>
+
+<div class="article-content">
+    {{ article_item.text|censor|linebreaks }}
+</div>
+
+<div class="article-categories">
+    <strong>Категории:</strong>
+    {% for category in article_item.categories.all %}
+        <a href="/category/{{ category.id }}/">{{ category.name }}</a>{% if not forloop.last %}, {% endif %}
+    {% endfor %}
+</div>
+
+{% if user == article_item.author.user %}
+<div class="article-actions">
+    <a href="{% url 'article_edit' article_item.id %}" class="btn">Редактировать</a>
+    <a href="{% url 'article_delete' article_item.id %}" class="btn btn-danger">Удалить</a>
+</div>
+{% endif %}
+{% endcache %}
+
+<!-- Комментарии не кэшируются, так как они динамические -->
+<div class="comments">
+    <h3>Комментарии ({{ article_item.comments.count }})</h3>
+    {% for comment in article_item.comments.all %}
+        <div class="comment">
+            <strong>{{ comment.user.username }}</strong>
+            <span class="date">{{ comment.created_at|date:"d.m.Y H:i" }}</span>
+            <p>{{ comment.text }}</p>
+        </div>
+    {% empty %}
+        <p>Комментариев пока нет. Будьте первым!</p>
+    {% endfor %}
+</div>
+{% endblock %}
