@@ -1,0 +1,90 @@
+/* ========================================
+   АДАПТИВНОСТЬ ДЛЯ РАЗНЫХ УСТРОЙСТВ
+   ======================================== */
+
+/* Планшеты */
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+
+    .logo {
+        font-size: 20px;
+    }
+
+    .nav {
+        margin-top: 15px;
+    }
+
+    .nav a {
+        margin: 0 8px;
+        font-size: 14px;
+    }
+
+    .post-title {
+        font-size: 18px;
+    }
+
+    .filter-sidebar {
+        margin-bottom: 20px;
+    }
+
+    .btn {
+        padding: 8px 16px;
+        font-size: 12px;
+    }
+}
+
+/* Мобильные телефоны */
+@media (max-width: 480px) {
+    .header {
+        padding: 15px;
+    }
+
+    .nav {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .nav a {
+        margin: 5px 8px;
+        font-size: 12px;
+    }
+
+    .content {
+        padding: 15px;
+    }
+
+    .post-card {
+        padding: 12px;
+    }
+
+    .post-title {
+        font-size: 16px;
+    }
+
+    .post-meta {
+        font-size: 11px;
+    }
+
+    .pagination a,
+    .pagination span {
+        padding: 5px 10px;
+        font-size: 12px;
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+        padding: 8px;
+        font-size: 14px;
+    }
+}
+
+/* Десктопы */
+@media (min-width: 1200px) {
+    .container {
+        max-width: 1400px;
+    }
+}

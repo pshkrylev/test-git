@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ post.title }}{% endblock %}
+
+{% block content %}
+<a href="{% url 'post_list' %}" class="btn btn-primary">← Назад</a>
+
+<h1>{{ post.title }}</h1>
+<p><strong>Автор:</strong> {{ post.author.username }}</p>
+<p><strong>Категория:</strong> {{ post.category.get_name_display }}</p>
+<p><strong>Дата:</strong> {{ post.created_at|date:"d.m.Y H:i" }}</p>
+<hr>
+<div>{{ post.content|linebreaks }}</div>
+
+{% if user.is_authenticated and user.is_verified %}
+    {% if post.author == user %}
+        <p>
+            <a href="{% url 'post_edit' post.id %}" class="btn btn-primary">Редактировать</a>
+            <a href="{% url 'post_delete' post.id %}" class="btn btn-danger">Удалить</a>
+        </p>
+    {% else %}
+        <h3>Оставить отклик</h3>
+        <form method="post" action="{% url 'response_create' post.id %}">
+            {% csrf_token %}
+            <textarea name="text" rows="5" class="form-group" style="width: 100%;" required></textarea>
+            <button type="submit" class="btn btn-success">Отправить</button>
+        </form>
+    {% endif %}
+{% endif %}
+{% endblock %}

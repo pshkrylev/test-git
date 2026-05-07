@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block title %}Email не подтверждён{% endblock %}
+
+{% block content %}
+<div style="text-align: center;">
+    <h2> Email не подтверждён</h2>
+    <p>Для создания объявлений необходимо подтвердить email.</p>
+    <a href="{% url 'post_list' %}" class="btn btn-primary">На главную</a>
+</div>
+{% endblock %}

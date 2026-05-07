@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}Отклик на объявление{% endblock %}
+
+{% block content %}
+<h2>Отклик на "{{ post.title }}"</h2>
+
+<form method="post">
+    {% csrf_token %}
+    <div class="form-group">
+        <label>Ваш отклик</label>
+        {{ form.text }}
+    </div>
+    <button type="submit" class="btn btn-success">Отправить</button>
+    <a href="{% url 'post_detail' post.id %}" class="btn btn-primary">Отмена</a>
+</form>
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block title %}Email подтверждён - MMORPG Board{% endblock %}
+
+{% block content %}
+<div style="text-align: center; padding: 50px 0;">
+    <h2> Email подтверждён!</h2>
+    <p style="margin: 20px 0;">Ваш email успешно подтверждён. Теперь вы можете создавать объявления.</p>
+    <a href="{% url 'post_list' %}" class="btn btn-primary">Перейти к объявлениям</a>
+</div>
+{% endblock %}

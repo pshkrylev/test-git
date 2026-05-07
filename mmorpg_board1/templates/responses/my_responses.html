@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}Мои отклики{% endblock %}
+
+{% block content %}
+<h2>📬 Отклики на мои объявления</h2>
+
+<div style="background: #f7fafc; padding: 20px; margin-bottom: 20px;">
+    <form method="get">
+        <label>Фильтр по объявлению:</label>
+        <select name="post" onchange="this.form.submit()">
+            <option value="">Все</option>
+            {% for post in posts %}
+            <option value="{{ post.id }}" {% if selected_post == post.id %}selected{% endif %}>
+                {{ post.title }}
+            </option>
+            {% endfor %}
+        </select>
+    </form>
+</div>
+
+{% for response in responses %}
+<div style="border: 1px solid #ddd; padding: 20px; margin-bottom: 20px; {% if response.is_accepted %}background: #d4edda;{% endif %}">
+    <p><strong>Объявление:</strong> <a href="{% url 'post_detail' response.post.id %}">{{ response.post.title }}</a></p>
+    <p><strong>От:</strong> {{ response.author.username }}</p>
+    <p><strong>Дата:</strong> {{ response.created_at|date:"d.m.Y H:i" }}</p>
+    <p><strong>Текст:</strong> {{ response.text }}</p>
+    <p><strong>Статус:</strong> {% if response.is_accepted %}✅ Принят{% else %}⏳ Ожидает{% endif %}</p>
+    
+    {% if not response.is_accepted %}
+    <p>
+        <a href="{% url 'accept_response' response.id %}" class="btn btn-success">Принять</a>
+        <a href="{% url 'delete_response' response.id %}" class="btn btn-danger">Удалить</a>
+    </p>
+    {% endif %}
+</div>
+{% empty %}
+<p>Нет откликов на ваши объявления.</p>
+{% endfor %}
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block title %}Ошибка подтверждения - MMORPG Board{% endblock %}
+
+{% block content %}
+<div style="text-align: center; padding: 50px 0;">
+    <h2> Неверная ссылка</h2>
+    <p style="margin: 20px 0;">Ссылка для подтверждения недействительна или истекла.</p>
+    <a href="{% url 'register' %}" class="btn btn-primary">Зарегистрироваться заново</a>
+</div>
+{% endblock %}

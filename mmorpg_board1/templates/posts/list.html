@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block title %}Все объявления - MMORPG Board{% endblock %}
+
+{% block content %}
+<div style="display: grid; grid-template-columns: 250px 1fr; gap: 30px;">
+    <div style="background: #f7fafc; padding: 20px; border-radius: 8px;">
+        <h3>Категории</h3>
+        <ul style="list-style: none;">
+            <li><a href="{% url 'post_list' %}">Все</a></li>
+            {% for cat in categories %}
+            <li>
+                <a href="?category={{ cat.id }}">{{ cat.get_name_display }}</a>
+                ({{ cat.post_count }})
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    
+    <div>
+        {% for post in page_obj %}
+        <div style="border: 1px solid #ddd; padding: 20px; margin-bottom: 20px; border-radius: 8px;">
+            <span style="background: #e2e8f0; padding: 3px 8px; border-radius: 4px; font-size: 12px;">
+                {{ post.category.get_name_display }}
+            </span>
+            <h3><a href="{% url 'post_detail' post.id %}">{{ post.title }}</a></h3>
+            <p>{{ post.author.username }} | {{ post.created_at|date:"d.m.Y H:i" }}</p>
+            <p>{{ post.content|truncatewords:20 }}</p>
+        </div>
+        {% empty %}
+        <p>Нет объявлений.</p>
+        {% endfor %}
+        
+        {% if page_obj.has_other_pages %}
+        <div style="text-align: center; margin-top: 30px;">
+            {% if page_obj.has_previous %}
+                <a href="?page=1">« Первая</a>
+                <a href="?page={{ page_obj.previous_page_number }}">‹ Назад</a>
+            {% endif %}
+            <span>Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}</span>
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">Вперед ›</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}">Последняя »</a>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
