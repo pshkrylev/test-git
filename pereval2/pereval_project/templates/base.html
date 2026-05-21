@@ -1,0 +1,44 @@
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Pereval API{% endblock %}</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; line-height: 1.6; }
+        pre { background: #f4f4f4; padding: 15px; border-radius: 5px; overflow-x: auto; }
+        code { background: #f4f4f4; padding: 2px 5px; border-radius: 3px; }
+    </style>
+</head>
+<body>
+    <h1>📡 Pereval API</h1>
+    <p>REST API для добавления информации о горных перевалах</p>
+
+    <h2>Доступные эндпоинты:</h2>
+    <ul>
+        <li><code>POST /api/submitData/</code> - Добавление перевала</li>
+        <li><code>GET /api/submitData/&lt;id&gt;/</code> - Получение перевала по ID</li>
+        <li><code>PATCH /api/submitData/&lt;id&gt;/edit/</code> - Редактирование перевала</li>
+        <li><code>GET /api/submitData/?user__email=&lt;email&gt;</code> - Получение перевалов по email</li>
+    </ul>
+
+    <h2>Пример запроса (POST):</h2>
+    <pre>{
+  "title": "Тестовый перевал",
+  "user": {
+    "email": "test@test.com",
+    "fam": "Тестов",
+    "name": "Тест",
+    "phone": "+7 999 123 45 67"
+  },
+  "coords": {
+    "latitude": 45.3842,
+    "longitude": 7.1525,
+    "height": 1200
+  },
+  "level": {"summer": "1А"},
+  "images": [{"data": "base64...", "title": "Фото"}]
+}</pre>
+
+    {% block content %}{% endblock %}
+</body>
+</html>
